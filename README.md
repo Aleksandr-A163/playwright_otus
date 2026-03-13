@@ -1,6 +1,6 @@
 # OTUS Playwright UI tests
 
-Проект содержит UI автотест на Playwright Java + JUnit 5 + Guice без `@UsePlaywright`.
+Проект содержит UI автотест на Playwright Java + JUnit 5 + Guice.
 
 ## Что реализовано
 
@@ -47,11 +47,3 @@ Headless режим можно отключить:
 traces/
 ```
 
-Это соответствует требованию хранить архивы с трейсами в корне репозитория.
-
-## Что можно усилить дальше
-
-- вынести конфиг в отдельный properties/env слой
-- добавить base component для карточек преподавателей
-- включить retry и screenshots on failure
-- добавить GitHub Actions или Jenkins pipeline
