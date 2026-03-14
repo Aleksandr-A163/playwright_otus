@@ -29,3 +29,4 @@ build/reports/
 !build.gradle
 !settings.gradle
 !README.md
+!traces/
