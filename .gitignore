@@ -1,5 +1,31 @@
+# Java/Gradle build output
 .gradle/
 build/
 out/
+gradlew
+gradlew.bat
+gradle/wrapper/
+
+# IntelliJ IDEA
 .idea/
-playwright/
+*.iml
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Ignore test reports
+build/reports/
+
+# But keep source folders and config files
+!src/
+!src/**/*
+!build.gradle
+!settings.gradle
+!README.md
