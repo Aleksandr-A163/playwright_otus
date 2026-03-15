@@ -171,4 +171,5 @@ public class CatalogCoursesPage extends AbsBasePage {
 
         throw new IllegalStateException("Не найдена информация о продолжительности курса");
     }
+
 }
