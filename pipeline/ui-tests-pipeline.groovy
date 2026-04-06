@@ -53,7 +53,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'build/reports/, build/test-results/, traces/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'build/reports/**, build/test-results/**, build/allure-results/**, traces/**', allowEmptyArchive: true
 
             allure([
                 includeProperties: false,
