@@ -1,88 +1,103 @@
 plugins {
-    id 'java'
-    id 'checkstyle'
-    id 'com.github.spotbugs' version '6.1.7'
+  id 'java'
+  id 'checkstyle'
+  id 'com.github.spotbugs' version '6.1.7'
+  id 'io.qameta.allure' version '2.12.0'
 }
 
 group = 'ru.otus'
 version = '1.0.0'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+  options.encoding = 'UTF-8'
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 ext {
-    playwrightVersion = '1.53.0'
-    junitVersion = '5.12.2'
-    guiceVersion = '7.0.0'
-    slf4jVersion = '2.0.17'
-    checkstyleVersion = '10.21.4'
+  playwrightVersion = '1.53.0'
+  junitVersion = '5.12.2'
+  guiceVersion = '7.0.0'
+  slf4jVersion = '2.0.17'
+  checkstyleVersion = '10.21.4'
+  allureVersion = '2.29.1'
 }
 
 dependencies {
-    implementation "com.microsoft.playwright:playwright:${playwrightVersion}"
-    implementation "com.google.inject:guice:${guiceVersion}"
-    implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
+  implementation "com.microsoft.playwright:playwright:${playwrightVersion}"
+  implementation "com.google.inject:guice:${guiceVersion}"
+  implementation "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-    implementation platform("org.junit:junit-bom:${junitVersion}")
-    implementation "org.junit.jupiter:junit-jupiter-api"
+  implementation platform("org.junit:junit-bom:${junitVersion}")
+  implementation "org.junit.jupiter:junit-jupiter-api"
 
-    testImplementation platform("org.junit:junit-bom:${junitVersion}")
-    testImplementation "org.junit.jupiter:junit-jupiter"
+  testImplementation platform("org.junit:junit-bom:${junitVersion}")
+  testImplementation "org.junit.jupiter:junit-jupiter"
+  testImplementation "io.qameta.allure:allure-junit5:${allureVersion}"
 
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
-    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
+  checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
+}
+
+allure {
+  version.set(allureVersion)
+  adapter {
+    aspectjWeaver.set(false)
+    frameworks {
+      junit5 {
+        adapterVersion.set(allureVersion)
+      }
+    }
+  }
 }
 
 test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 
-    systemProperty 'headless', System.getProperty('headless', 'true')
-    systemProperty 'browser', System.getProperty('browser', 'chromium')
-    systemProperty 'baseUrl', System.getProperty('baseUrl', 'https://otus.ru/lessons/clickhouse/')
-    systemProperty 'siteUrl', System.getProperty('siteUrl', 'https://otus.ru')
+  systemProperty 'headless', System.getProperty('headless', 'true')
+  systemProperty 'browser', System.getProperty('browser', 'chromium')
+  systemProperty 'baseUrl', System.getProperty('baseUrl', 'https://otus.ru/lessons/clickhouse/')
+  systemProperty 'siteUrl', System.getProperty('siteUrl', 'https://otus.ru')
 
-    testLogging {
-        events 'passed', 'skipped', 'failed'
-        exceptionFormat 'full'
-        showStandardStreams = true
-    }
+  testLogging {
+    events 'passed', 'skipped', 'failed'
+    exceptionFormat 'full'
+    showStandardStreams = true
+  }
 }
 
 checkstyle {
-    toolVersion = checkstyleVersion
-    configFile = file('config/checkstyle/checkstyle.xml')
-    ignoreFailures = false
+  toolVersion = checkstyleVersion
+  configFile = file('config/checkstyle/checkstyle.xml')
+  ignoreFailures = false
 }
 
 tasks.withType(Checkstyle).configureEach {
-    reports {
-        xml.required = false
-        html.required = true
-    }
+  reports {
+    xml.required = false
+    html.required = true
+  }
 }
 
 spotbugs {
-    ignoreFailures = false
-    effort = com.github.spotbugs.snom.Effort.MAX
-    reportLevel = 'LOW'
-    excludeFilter = file('config/spotbugs-exclude.xml')
+  ignoreFailures = false
+  effort = com.github.spotbugs.snom.Effort.MAX
+  reportLevel = 'LOW'
+  excludeFilter = file('config/spotbugs-exclude.xml')
 }
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
-    reports {
-        xml.required = false
-        html.required = true
-    }
+  reports {
+    xml.required = false
+    html.required = true
+  }
 }
