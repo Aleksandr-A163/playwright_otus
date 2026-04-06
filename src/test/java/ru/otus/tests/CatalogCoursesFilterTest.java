@@ -9,22 +9,22 @@ import ru.otus.pages.CatalogCoursesPage;
 @ExtendWith(PlaywrightExtension.class)
 public class CatalogCoursesFilterTest {
 
-    private static final int MIN_MONTH = 3;
-    private static final int MAX_MONTH = 10;
+  private static final int MIN_MONTH = 3;
+  private static final int MAX_MONTH = 10;
 
-    @Inject
-    private CatalogCoursesPage catalogCoursesPage;
+  @Inject
+  private CatalogCoursesPage catalogCoursesPage;
 
-    @Test
-    void catalogCoursesFilterTest() {
-        catalogCoursesPage.open();
-        catalogCoursesPage
-                .checkOpenPage()
-                .checkDefaulFilterChecked()
-                .moveStartSlaider(MIN_MONTH)
-                .moveEndSlaider(MAX_MONTH)
-                .checkTableCoursesDate(MIN_MONTH, MAX_MONTH)
-                .checkedDirection("Архитектура")
-                .resetFilter();
-    }
+  @Test
+  void catalogCoursesFilterTest() {
+    catalogCoursesPage.open();
+    catalogCoursesPage
+        .checkOpenPage()
+        .checkDefaulFilterChecked()
+        .moveStartSlaider(MIN_MONTH)
+        .moveEndSlaider(MAX_MONTH)
+        .checkTableCoursesDate(MIN_MONTH, MAX_MONTH)
+        .checkDirection("Архитектура")
+        .resetFilter();
+  }
 }
